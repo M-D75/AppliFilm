@@ -87,8 +87,12 @@ public class RequeteTMDB {
             for (String s: tabS) {
                 if(choixAffichage(s)){
                     String tabSs[] = s.split("\":");
+                    String tabSs2[] = tabSs[1].split("\"");
 
+                    //Suppression des guillemets
+                    tabSs[1] = tabSs[1].replaceAll("\"", "");
                     k.put(tabSs[0], tabSs[1]);
+
                     System.out.println(tabSs[0] + " " + tabSs[1]);
                     if( tabSs[0].compareTo("id") == 0 ){
 
