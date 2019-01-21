@@ -30,25 +30,47 @@ public class MainTest {
 
         //id
         String requete = RequeteTMDB.id(550);
+        System.out.println("Id");
         RequeteTMDB.affichageRequete(requete);
 
         //search
         requete = RequeteTMDB.search("infinity+War");
+        System.out.println("Recherche");
         RequeteTMDB.affichageRequete(requete);
 
         //discover
         requete = RequeteTMDB.discover("primary_release_date.gte=2014-09-15");
+        System.out.println("Discover");
         RequeteTMDB.affichageRequete(requete);
 
         //discover genre
         requete = RequeteTMDB.discoverGenres("primary_release_date.gte=2018-09-15", "" + GenreIdTMDB.getId("Action"));
+        System.out.println("Genre");
         RequeteTMDB.affichageRequete(requete);
 
         //Exemple pour recuperer une infos
         List<HashMap<String, String>> liste = RequeteTMDB.hashMapRequete(requete);
         System.out.println("contenu de la liste: " + liste);
-        System.out.println("Affochage du titre du film qui se trouve a la premieur possition dans la liste par exemple: ");
-        System.out.println(liste.get(0).get("title"));
+        System.out.println("Affichage du titre du film qui se trouve a la premieur possition dans la liste par exemple: ");
+        System.out.println(liste.get(0).get("original_title"));
+        System.out.println(liste.get(0).get("overview"));
+        System.out.println(liste.get(0).get("poster_path"));
+
+        // Construction image
+
+        String requeteImage = "http://image.tmdb.org/t/p/w185/";
+        String posterPath = (String) liste.get(0).get("poster_path");
+
+
+
+        System.out.println("AAA : " + posterPath);
+        System.out.println("BBB : " + requeteImage);
+        requeteImage += posterPath;
+        //requeteImage += "sPVs1vowAKEGqsrPZiAGeTgNd3m.jpg";
+        System.out.println("Image");
+        System.out.println(requeteImage);
+
+
 
         //https://api.themoviedb.org/3/genre/movie/list?api_key=c36506bd3193be04b65c8828935dc788
 
