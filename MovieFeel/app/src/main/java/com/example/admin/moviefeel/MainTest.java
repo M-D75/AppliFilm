@@ -48,7 +48,7 @@ public class MainTest {
         List<HashMap<String, String>> liste = RequeteTMDB.hashMapRequete(requete);
         System.out.println("contenu de la liste: " + liste);
         System.out.println("Affochage du titre du film qui se trouve a la premieur possition dans la liste par exemple: ");
-        System.out.println(liste.get(0).get("title"));
+        System.out.println(liste.get(2).get("title"));
 
         //https://api.themoviedb.org/3/genre/movie/list?api_key=c36506bd3193be04b65c8828935dc788
 

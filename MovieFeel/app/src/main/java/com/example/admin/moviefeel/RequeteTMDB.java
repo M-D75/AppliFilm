@@ -82,26 +82,28 @@ public class RequeteTMDB {
             //System.out.println(output);
 
             HashMap<String, String> k =  new HashMap<String, String>();
-            //System.out.println("end");
+            System.out.println("end");
             String tabS[] = output.split(",\"");
             for (String s: tabS) {
                 if(choixAffichage(s)){
                     String tabSs[] = s.split("\":");
 
                     k.put(tabSs[0], tabSs[1]);
-                    //System.out.println(tabSs[0] + " " + tabSs[1]);
+                    System.out.println(tabSs[0] + " " + tabSs[1]);
                     if( tabSs[0].compareTo("id") == 0 ){
-                        //System.out.println("");
+
+                        h.add(k);
+                        k =  new HashMap<String, String>();
+                        System.out.println("");
                         //affichage.append("\n");
                     }
                     //affichage.append(s);
-                    //System.out.println(s);
+                    System.out.println(s);
                 }
-
             }
             h.add(k);
             //affichage.append("--------------------------------------------------------------------------------------------------------------");
-            //System.out.println("--------------------------------------------------------------------------------------------------------------");
+            System.out.println("--------------------------------------------------------------------------------------------------------------");
         }
         //System.out.println(h.get(0));
         return h;
