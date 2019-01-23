@@ -85,28 +85,33 @@ public class RequeteTMDB {
         //Affichage du resultat de la requete
         String output;
         System.out.println("Sortie du Server .... \n");
+        Boolean premiere_requete = false;
         while ((output = bufferedReader.readLine()) != null) {
-            //System.out.println(output);
+            System.out.println("outp : "+output);
 
             HashMap<String, String> hashMap =  new HashMap<String, String>();
             System.out.println("end");
             String tabS[] = output.split(",\"");
+
             for (String s: tabS) {
                 if(choixAffichage(s)){
                     String tabSs[] = s.split("\":");
+
+                    System.out.println(tabSs[0] + " " + tabSs[1]);
+                    if( tabSs[0].compareTo("id") == 0 && premiere_requete){
+                        hashMapList.add(hashMap);
+                        hashMap = new HashMap<String, String>();
+                        System.out.println("\n");
+                        //affichage.append("\n");
+                    }
+                    else if(tabSs[0].compareTo("id") == 0){
+                        premiere_requete = true;
+                    }
 
                     //Suppression des guillemets
                     tabSs[1] = tabSs[1].replaceAll("\"", "");
                     hashMap.put(tabSs[0], tabSs[1]);
 
-                    System.out.println(tabSs[0] + " " + tabSs[1]);
-                    if( tabSs[0].compareTo("id") == 0 ){
-
-                        hashMapList.add(hashMap);
-                        hashMap =  new HashMap<String, String>();
-                        //System.out.println("");
-                        //affichage.append("\n");
-                    }
                     //affichage.append(s);
                     System.out.println(s);
                 }
