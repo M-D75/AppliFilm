@@ -1,7 +1,5 @@
 package com.example.admin.moviefeel;
 
-import org.json.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,6 +28,15 @@ public class RequeteTMDB {
         requeteUrl += apiKey;
         requeteUrl += "&";
         requeteUrl += requete;
+        return requeteUrl;
+    }
+
+    public static String discover(String requete, Integer num_page){
+        String requeteUrl = "https://api.themoviedb.org/3/discover/movie?api_key=";
+        requeteUrl += apiKey;
+        requeteUrl += "&";
+        requeteUrl += requete;
+        requeteUrl += "&page="+num_page;
         return requeteUrl;
     }
 
@@ -72,45 +79,49 @@ public class RequeteTMDB {
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "application/json");
 
-        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
-        List<HashMap<String, String>> h = new ArrayList<HashMap<String, String>>();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader((con.getInputStream())));
+        List<HashMap<String, String>> hashMapList = new ArrayList<HashMap<String, String>>();
 
         //Affichage du resultat de la requete
         String output;
         System.out.println("Sortie du Server .... \n");
-        while ((output = br.readLine()) != null) {
-            //System.out.println(output);
+        Boolean premiere_requete = false;
+        while ((output = bufferedReader.readLine()) != null) {
+            System.out.println("outp : "+output);
 
-            HashMap<String, String> k =  new HashMap<String, String>();
+            HashMap<String, String> hashMap =  new HashMap<String, String>();
             System.out.println("end");
             String tabS[] = output.split(",\"");
+
             for (String s: tabS) {
                 if(choixAffichage(s)){
                     String tabSs[] = s.split("\":");
-                    String tabSs2[] = tabSs[1].split("\"");
+
+                    System.out.println(tabSs[0] + " " + tabSs[1]);
+                    if( tabSs[0].compareTo("id") == 0 && premiere_requete){
+                        hashMapList.add(hashMap);
+                        hashMap = new HashMap<String, String>();
+                        System.out.println("\n");
+                        //affichage.append("\n");
+                    }
+                    else if(tabSs[0].compareTo("id") == 0){
+                        premiere_requete = true;
+                    }
 
                     //Suppression des guillemets
                     tabSs[1] = tabSs[1].replaceAll("\"", "");
-                    k.put(tabSs[0], tabSs[1]);
+                    hashMap.put(tabSs[0], tabSs[1]);
 
-                    System.out.println(tabSs[0] + " " + tabSs[1]);
-                    if( tabSs[0].compareTo("id") == 0 ){
-
-                        h.add(k);
-                        k =  new HashMap<String, String>();
-                        System.out.println("");
-                        //affichage.append("\n");
-                    }
                     //affichage.append(s);
                     System.out.println(s);
                 }
             }
-            h.add(k);
+            hashMapList.add(hashMap);
             //affichage.append("--------------------------------------------------------------------------------------------------------------");
             System.out.println("--------------------------------------------------------------------------------------------------------------");
         }
-        //System.out.println(h.get(0));
-        return h;
+        //System.out.println(hashMapList.get(0));
+        return hashMapList;
     }
 
     public static String affichageRequete(String requete) throws IOException {
@@ -125,23 +136,20 @@ public class RequeteTMDB {
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "application/json");
 
-        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
-        List<HashMap<String, String>> h = new ArrayList<HashMap<String, String>>();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader((con.getInputStream())));
 
         //Affichage du resultat de la requete
         String output;
         System.out.println("Sortie du Server .... \n");
-        while ((output = br.readLine()) != null) {
+        while ((output = bufferedReader.readLine()) != null) {
             //System.out.println(output);
 
-            HashMap<String, String> k =  new HashMap<String, String>();
             //System.out.println("end");
             String tabS[] = output.split(",\"");
             for (String s: tabS) {
                 if(choixAffichage(s)){
                     String tabSs[] = s.split("\":");
 
-                    k.put(tabSs[0], tabSs[1]);
                     //System.out.println(tabSs[0] + " " + tabSs[1]);
                     if( tabSs[0].compareTo("id") == 0 ){
                         //System.out.println("");
@@ -152,7 +160,6 @@ public class RequeteTMDB {
                 }
 
             }
-            h.add(k);
             affichage.append("--------------------------------------------------------------------------------------------------------------");
             //System.out.println("--------------------------------------------------------------------------------------------------------------");
         }
@@ -196,5 +203,16 @@ public class RequeteTMDB {
         return false;
     }
 
+    /* Permet de récupérer une image à partir de la HashMap passé en paramètre */
+
+    public static String recupererImage (HashMap<String, String> listeHash) {
+        String requeteImage = "http://image.tmdb.org/t/p/w185/"; // Adresse de base par récupérer les images
+        String posterPath = (String) listeHash.get("poster_path");
+
+        posterPath = posterPath.substring(1); // Il est nécessaire d'enlever le premier caractère pour être conforme
+        requeteImage += posterPath; // On assemble l'adresse
+
+        return requeteImage;
+    }
 
 }
