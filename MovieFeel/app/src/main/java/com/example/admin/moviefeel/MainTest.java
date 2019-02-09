@@ -14,6 +14,10 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
+
+import java.io.IOException;
+import java.util.Vector;
+
 public class MainTest {
     public static void main(String [ ] args) throws IOException {
 
@@ -60,7 +64,7 @@ public class MainTest {
         // Construction image
 
         String requeteImage = "http://image.tmdb.org/t/p/w185/";
-        String posterPath = (String) liste.get(0).get("poster_path");
+        String posterPath = (String) liste.get(0).get("poster_path").replaceAll("\\\\/", "/");
 
 
 
@@ -74,7 +78,14 @@ public class MainTest {
 
 
         System.out.println("Affochage du titre du film qui se trouve a la premieur possition dans la liste par exemple: ");
-        System.out.println(liste.get(2).get("title"));
+        System.out.println(liste.get(0).get("title"));
+
+        /*JFrame frame = new JFrame( "image URL" );
+        JLabel label = new JLabel( new ImageIcon( new URL( "http://bilad.fr/model_fichiers/img_surgele.jpg" ) ) );
+        frame.getContentPane().add( label );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.pack();
+        frame.setVisible( true );*/
 
 
         //https://api.themoviedb.org/3/genre/movie/list?api_key=c36506bd3193be04b65c8828935dc788
