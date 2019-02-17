@@ -203,5 +203,16 @@ public class RequeteTMDB {
         return false;
     }
 
+    /* Permet de récupérer une image à partir de la HashMap passé en paramètre */
+
+    public static String recupererImage (HashMap<String, String> listeHash) {
+        String requeteImage = "http://image.tmdb.org/t/p/w185/"; // Adresse de base par récupérer les images
+        String posterPath = (String) listeHash.get("poster_path");
+
+        posterPath = posterPath.substring(1); // Il est nécessaire d'enlever le premier caractère pour être conforme
+        requeteImage += posterPath; // On assemble l'adresse
+
+        return requeteImage;
+    }
 
 }
