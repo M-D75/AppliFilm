@@ -195,7 +195,7 @@ public class RequeteTMDB {
             case "genre_ids\"":{
                 return true;
             }
-            case "poster_path\"": {
+            case "poster_path\"":{
                 return true;
             }
         }
