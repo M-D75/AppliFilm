@@ -56,7 +56,7 @@ public class Accueil extends AppCompatActivity {
                 startActivity(decouvrirActivityIntent);
             }
         });
-
+        System.out.println("yo yo");
 
     }
 
