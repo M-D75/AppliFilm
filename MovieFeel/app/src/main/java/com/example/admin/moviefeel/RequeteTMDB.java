@@ -50,6 +50,16 @@ public class RequeteTMDB {
         return requeteUrl;
     }
 
+    public static String discoverGenres(String requete, String genres, Integer num_page){
+        String requeteUrl = "https://api.themoviedb.org/3/discover/movie?api_key=";
+        requeteUrl += apiKey;
+        requeteUrl += "&";
+        requeteUrl += requete;
+        requeteUrl += "&with_genres=" + genres;
+        requeteUrl += "&page="+num_page;
+        return requeteUrl;
+    }
+
     //Requete avec /id passer en chaine de caractere
     public static String id(String idRequete){
         String requeteUrl = "https://api.themoviedb.org/3/movie/";

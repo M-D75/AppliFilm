@@ -78,7 +78,38 @@ public class Decouvrir extends AppCompatActivity  {
         mRecyclerView.setLayoutManager(layoutManager);
     }
 
+    //Ajout d'une nouvel page a la liste
+    public static List<HashMap<String, String>> refresh(final List<HashMap<String, String>> liste, final Integer num_page){
+        final CountDownLatch latch = new CountDownLatch(1);
+        final String[] value = new String[1];
+        System.out.println("kkkmmmmm ");
+        Thread uiThread = new HandlerThread("UIHandler2"){
+            @Override
+            public void run(){
 
+                String requete = RequeteTMDB.discoverGenres("primary_release_date.gte=2018-09-15", "" + GenreIdTMDB.getId("Action"), num_page);
+                System.out.println(requete);
+                try{
+                    List<HashMap<String, String>> l = RequeteTMDB.hashMapRequete(requete);
+                    liste.addAll(l);
+                }
+                catch ( IOException e ){
+                    System.out.print("err");
+                }
+
+                latch.countDown();
+            }
+        };
+        uiThread.start();
+
+        try {
+            latch.await(); // Wait for countDown() in the UI thread. Or could uiThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.out.println("Errrr ");
+        }
+        return liste;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +117,6 @@ public class Decouvrir extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decouvrir);
         String urlImageFilm;
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        this.configureRecyclerView();
 
         final CountDownLatch latch = new CountDownLatch(1);
         final String[] value = new String[1];
@@ -126,6 +154,11 @@ public class Decouvrir extends AppCompatActivity  {
             e.printStackTrace();
             System.out.println("Errrr ");
         }
+
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        this.configureRecyclerView();
+
 
         /*
         System.out.println("value " + value[0]);

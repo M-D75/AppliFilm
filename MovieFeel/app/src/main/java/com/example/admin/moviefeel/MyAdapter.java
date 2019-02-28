@@ -28,7 +28,11 @@ class MyAdapter extends RecyclerView.Adapter <UserViewHolder> {
 
 
     public MyAdapter(List<HashMap<String, String>> liste) {
-        Decouvrir.liste = liste;
+        System.out.println("Adapter --------------------------------- ");
+        System.out.println(Decouvrir.liste.size());
+        Decouvrir.liste = Decouvrir.refresh(Decouvrir.liste, 2);
+        System.out.println(Decouvrir.liste.size());
+        System.out.println("End Adapter --------------------------------- ");
     }
 
     @NonNull
