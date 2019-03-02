@@ -17,8 +17,14 @@ public class MainTest{
         catch ( IOException e){
             System.out.print("err");
         }
+
+        System.out.println("AFFICHAGE Liste 1 : ");
+        System.out.println(liste);
+
+       // liste = Decouvrir.refresh(liste, 2);
+
         System.out.println("\n");
-        System.out.println("AFFICHAGE TITRE : ");
-        System.out.println(liste.get(0).get("title"));
+        System.out.println("AFFICHAGE Liste 2 : ");
+        System.out.println(liste);
     }
 }

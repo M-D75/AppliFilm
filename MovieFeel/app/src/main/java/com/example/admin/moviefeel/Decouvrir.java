@@ -6,14 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +51,9 @@ public class Decouvrir extends AppCompatActivity  {
     private Button boutonImage;
     private ImageView imageFilm;
     private String urlImageFilm;
+    private Spinner listeGenre;
+
+    private List<String> genre = new ArrayList<String>();
 
     private URL url;
 
@@ -71,7 +79,7 @@ public class Decouvrir extends AppCompatActivity  {
     List <String> mUsers = Arrays.asList("Guillaume", "Quentin", "Romain");
 
     private void configureRecyclerView() {
-        layoutManager = new GridLayoutManager(Decouvrir.this, 3);
+        layoutManager = new GridLayoutManager(Decouvrir.this, 2);
         mAdapter = new MyAdapter(liste);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
@@ -82,7 +90,6 @@ public class Decouvrir extends AppCompatActivity  {
     public static List<HashMap<String, String>> refresh(final List<HashMap<String, String>> liste, final Integer num_page){
         final CountDownLatch latch = new CountDownLatch(1);
         final String[] value = new String[1];
-        System.out.println("kkkmmmmm ");
         Thread uiThread = new HandlerThread("UIHandler2"){
             @Override
             public void run(){
@@ -157,7 +164,36 @@ public class Decouvrir extends AppCompatActivity  {
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        listeGenre = (Spinner) findViewById(R.id.spinner);
         this.configureRecyclerView();
+
+        genre.add(0, "Action");
+        genre.add("Aventure");
+        genre.add("Thriller");
+
+        // Initialisation du spinner
+
+        ArrayAdapter<String> dateAdapter;
+        dateAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, genre);
+
+        listeGenre.setAdapter(dateAdapter);
+        listeGenre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position).equals("Choose")){
+
+                }
+                else {
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
 
         /*
