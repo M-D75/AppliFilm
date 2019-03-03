@@ -111,7 +111,8 @@ public class Decouvrir extends AppCompatActivity  {
 
         try {
             latch.await(); // Wait for countDown() in the UI thread. Or could uiThread.join();
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             e.printStackTrace();
             System.out.println("Errrr ");
         }
