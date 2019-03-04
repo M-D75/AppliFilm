@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.os.HandlerThread;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,11 +55,18 @@ public class Decouvrir extends AppCompatActivity  {
 
     private URL url;
 
+    int largeurEcran;
+
+    // Taille image standard : 500 x 750
+
+    public static int largeurImage; // Division par 3 de la largeur de l'écran + ajustement pour marge.
+    public static int hauteurImage; // Multiplication pour respecter le facteur de la hauteur
+
 
     // Vraaaai
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter<UserViewHolder> mAdapter;
     private GridLayoutManager layoutManager;
 
     public static List<HashMap<String, String>> liste;
@@ -76,10 +81,18 @@ public class Decouvrir extends AppCompatActivity  {
 
     }
 
+    protected int getLargeurImage(){
+        return largeurImage;
+    }
+
+    protected int getHauteurImage(){
+        return hauteurImage;
+    }
+
     List <String> mUsers = Arrays.asList("Guillaume", "Quentin", "Romain");
 
     private void configureRecyclerView() {
-        layoutManager = new GridLayoutManager(Decouvrir.this, 2);
+        layoutManager = new GridLayoutManager(Decouvrir.this, 3);
         mAdapter = new MyAdapter(liste);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
@@ -125,6 +138,16 @@ public class Decouvrir extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decouvrir);
         String urlImageFilm;
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        // On récupère la largeur de l'écran
+
+        largeurEcran = metrics.widthPixels;
+
+        largeurImage = (largeurEcran/3);
+        hauteurImage = ((largeurImage*750)/500);
 
         final CountDownLatch latch = new CountDownLatch(1);
         final String[] value = new String[1];
@@ -175,7 +198,7 @@ public class Decouvrir extends AppCompatActivity  {
         // Initialisation du spinner
 
         ArrayAdapter<String> dateAdapter;
-        dateAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, genre);
+        dateAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, genre);
 
         listeGenre.setAdapter(dateAdapter);
         listeGenre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

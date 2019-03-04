@@ -208,6 +208,9 @@ public class RequeteTMDB {
             case "poster_path\"":{
                 return true;
             }
+            case "vote_average\"":{
+                return true;
+            }
         }
 
         return false;

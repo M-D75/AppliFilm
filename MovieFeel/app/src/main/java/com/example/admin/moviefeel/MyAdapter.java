@@ -58,7 +58,9 @@ class MyAdapter extends RecyclerView.Adapter <UserViewHolder> {
             Picasso.with(context).load(urlImageFilm).into(myViewHolder.imageView);
         }
 
-        myViewHolder.textView.setText(liste.get(i).get("title"));
+        myViewHolder.textView.setText(liste.get(i).get("vote_average") + "/10");
+
+        System.out.println("Nombre " + i + " et note : " + liste.get(i).get("vote_average") + " et titre : " +  liste.get(i).get("title") + " et id : " + liste.get(i).get("id") );
 
 
         //myViewHolder.imageView
